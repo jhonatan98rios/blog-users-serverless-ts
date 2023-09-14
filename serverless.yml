@@ -1,6 +1,9 @@
 service: blog-users-serverless
 frameworkVersion: '3'
 
+custom:
+  usersTableName: 'users-table-${sls:stage}'
+
 provider:
   name: aws
   runtime: nodejs18.x
@@ -13,12 +16,33 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
     NODE_PATH: "./:/opt/node_modules"
+    USERS_TABLE: ${self:custom.usersTableName}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UsersTable, Arn ]
 
 functions:
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
-      - httpApi: 'GET /health-check'
+      - httpApi: 'GET /dev/health-check'
+    memorySize: 128
+
+  createUser:
+    handler: src/functions/user/create/index.createUser
+    events:
+      - httpApi: 'POST /dev/create-user'
+    memorySize: 128
 
 plugins:
   - serverless-plugin-typescript
@@ -28,4 +52,17 @@ package:
   individually: true
   exclude: 
     - node_modules
-  
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.usersTableName}
