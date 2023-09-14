@@ -6,11 +6,11 @@ provider:
   runtime: nodejs18.x
 
 functions:
-  api:
-    handler: index.handler
+  healthCheck:
+    handler: src/functions/health-check/index.healthCheck
     events:
       - httpApi:
-          path: /
+          path: /health-check/
           method: get
 
 plugins:
