@@ -4,15 +4,28 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs18.x
+  httpApi:
+    payload: '2.0'
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+    NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
+    NODE_PATH: "./:/opt/node_modules"
 
 functions:
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
-      - httpApi:
-          path: /health-check/
-          method: get
+      - httpApi: 'GET /health-check'
 
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
+
+package: 
+  individually: true
+  exclude: 
+    - node_modules
+  

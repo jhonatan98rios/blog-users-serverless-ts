@@ -27,6 +27,6 @@
   "scripts": {
     "dev": "serverless offline start",
     "deploy": "serverless deploy",
-    "remove": "serverless remove"
+    "destroy": "serverless remove"
   }
 }
