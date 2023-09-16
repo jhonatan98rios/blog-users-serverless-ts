@@ -1,8 +1,7 @@
 service: blog-users-serverless
 frameworkVersion: '3'
 
-custom:
-  usersTableName: 'users-table-${sls:stage}'
+useDotenv: true
 
 provider:
   name: aws
@@ -12,24 +11,24 @@ provider:
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
+  tracing:
+    lambda: true # enable tracing
+  iamRoleStatements:
+    - Effect: "Allow" # xray permissions (required)
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource:
+        - "*"
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
     NODE_PATH: "./:/opt/node_modules"
-    USERS_TABLE: ${self:custom.usersTableName}
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
+    DATABASE_USER: ${env:DATABASE_USER}
+    DATABASE_PASS: ${env:DATABASE_PASS}
+    DATABASE_NAME: ${env:DATABASE_NAME}
+    APP_SECRET: ${env:APP_SECRET}
+    CLIENT_URL: ${env:CLIENT_URL}
 
 functions:
   healthCheck:
@@ -37,32 +36,22 @@ functions:
     events:
       - httpApi: 'GET /dev/health-check'
     memorySize: 128
+    tracing: Active
 
   createUser:
     handler: src/functions/user/create/index.createUser
     events:
       - httpApi: 'POST /dev/create-user'
     memorySize: 128
+    tracing: Active
 
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
+  - serverless-plugin-tracing
+  - serverless-dotenv-plugin
 
 package: 
   individually: true
   exclude: 
     - node_modules
-
-resources:
-  Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: userId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: userId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.usersTableName}

@@ -1,8 +1,8 @@
-import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import {v4 as uuid} from 'uuid';
+import { CreateUserService } from "./CreateUserService";
+import { MongoDBUserRepository } from "./UserRepository";
+import * as AWSXRay from 'aws-xray-sdk'
 
-const tableName = "BlogUsersTable"
-const docClient = new DocumentClient()
+AWSXRay.captureAWS(require('aws-sdk'))
 
 export enum Roles {
   READ = 'read',
@@ -10,22 +10,16 @@ export enum Roles {
   ADMIN = 'admin'
 }
 
-async function create(user) {
-  await docClient.put({
-    TableName: tableName,
-    Item: user,
-  })
-  .promise();
-
-  return user;
-}
-
 export const createUser = async (event) => {
 
   const { user, mail, password, consent } = JSON.parse(event.body) 
-  const createdUser = { user, mail, password, consent, role: Roles.READ, likedPosts: [], id: uuid() }
 
-  create(createdUser)
+  const userRepository = new MongoDBUserRepository()
+  const createUserService = new CreateUserService(userRepository)
+
+  const createdUser = await createUserService.execute({
+    user, mail, password, consent
+  })
 
   return {
     statusCode: 200,
