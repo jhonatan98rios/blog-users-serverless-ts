@@ -45,6 +45,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  listUsers:
+    handler: src/functions/user/list/index.listUsers
+    events:
+      - httpApi: 'GET /dev/users'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline

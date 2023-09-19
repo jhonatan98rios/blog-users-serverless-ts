@@ -1,14 +1,8 @@
 import { CreateUserService } from "./CreateUserService";
-import { MongoDBUserRepository } from "./UserRepository";
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import * as AWSXRay from 'aws-xray-sdk'
 
 AWSXRay.captureAWS(require('aws-sdk'))
-
-export enum Roles {
-  READ = 'read',
-  WRITE = 'write',
-  ADMIN = 'admin'
-}
 
 export const createUser = async (event) => {
 

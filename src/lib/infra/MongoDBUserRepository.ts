@@ -1,12 +1,11 @@
-import { IUser } from "./User";
-import { AbstractUserRepository } from "./AbstractUserRepository";
-import { IUserModel, UserModel } from "./User.schema";
 import * as dotenv from 'dotenv'
+import { IUser } from "../domain/User";
 import Database from "./Database";
+import { IUserModel, UserModel } from "./User.schema";
 
 dotenv.config()
 
-export class MongoDBUserRepository implements AbstractUserRepository {
+export class MongoDBUserRepository {
 
     private userModel: IUserModel
 

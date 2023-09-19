@@ -1,14 +1,14 @@
-import { IUser, Roles, User } from "./User"
-import AppError, { ErrorResponse } from "./AppError"
-import { generateHash } from "./hash"
-import { AbstractUserRepository } from "./AbstractUserRepository";
+import { IUser, Roles, User } from "../../../lib/domain/User"
+import AppError, { ErrorResponse } from "../../../lib/domain/AppError"
+import { generateHash } from "../../../lib/infra/hash"
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 
 type CreateUserResponse = {
     user: User
 }
 
 export class CreateUserService {
-    constructor(private userRepository: AbstractUserRepository) {}
+    constructor(private userRepository: MongoDBUserRepository) {}
 
     async execute({ user, mail, password, consent }: Partial<IUser>): Promise<CreateUserResponse | ErrorResponse> {
 
