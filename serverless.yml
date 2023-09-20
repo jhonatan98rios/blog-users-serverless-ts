@@ -73,6 +73,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  forgotPassword:
+    handler: src/functions/user/forgotPassword/index.forgotPassword
+    events:
+      - httpApi: 'POST /dev/forgot-password'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
