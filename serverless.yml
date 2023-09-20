@@ -52,6 +52,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  readUser:
+    handler: src/functions/user/read/index.readUser
+    events:
+      - httpApi: 'GET /dev/user'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
