@@ -66,6 +66,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  updateUser:
+    handler: src/functions/user/update/index.updateUser
+    events:
+      - httpApi: 'PUT /dev/update-user'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
