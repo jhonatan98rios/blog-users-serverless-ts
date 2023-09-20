@@ -59,6 +59,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  updateRoleUser:
+    handler: src/functions/user/updateRole/index.updateRoleUser
+    events:
+      - httpApi: 'PUT /dev/update-user-role'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
