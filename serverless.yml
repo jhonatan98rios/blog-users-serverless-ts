@@ -87,6 +87,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  login:
+    handler: src/functions/session/login/index.login
+    events:
+      - httpApi: 'POST /dev/login'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
