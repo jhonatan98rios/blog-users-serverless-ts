@@ -8,6 +8,13 @@ provider:
   runtime: nodejs18.x
   httpApi:
     payload: '2.0'
+    authorizers:
+      adminAuthorizer:
+        type: request
+        functionName: adminAuthorizer
+        identitySource:
+          - $request.header.Authorization
+
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
@@ -31,6 +38,7 @@ provider:
     CLIENT_URL: ${env:CLIENT_URL}
 
 functions:
+
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
@@ -62,9 +70,13 @@ functions:
   updateRoleUser:
     handler: src/functions/user/updateRole/index.updateRoleUser
     events:
-      - httpApi: 'PUT /dev/update-user-role'
+      - http:
+          path: /update-user-role
+          method: put
+          authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
+
 
   updateUser:
     handler: src/functions/user/update/index.updateUser
@@ -107,6 +119,12 @@ functions:
       - httpApi: 'DELETE /dev/logout'
     memorySize: 128
     tracing: Active
+
+  authorizer:
+    handler: src/functions/auth/authorizer/index.authorizer
+
+  adminAuthorizer:
+    handler: src/functions/auth/adminAuthorizer/index.adminAuthorizer
 
 plugins:
   - serverless-plugin-typescript
