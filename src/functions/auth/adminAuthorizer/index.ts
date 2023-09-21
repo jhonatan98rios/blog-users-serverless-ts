@@ -16,8 +16,6 @@ interface ITokenPayload {
 
 export const adminAuthorizer = async (event: APIGatewayTokenAuthorizerEvent) => {
 
-  console.log("event:", event.authorizationToken)
-
   if (!event.authorizationToken) {
     return AppError.json('Falha ao autenticar o usuário');
   }
@@ -32,7 +30,6 @@ export const adminAuthorizer = async (event: APIGatewayTokenAuthorizerEvent) => 
       return AppError.json('Falha ao autenticar o usuário');
     }
 
-    console.log('valid from customAuthorizer', decoded);
     return generatePolicy(sub, 'Allow', event.methodArn)
 
   } catch (err) {

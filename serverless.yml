@@ -47,14 +47,18 @@ functions:
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
-      - httpApi: 'GET /dev/health-check'
+      - http:
+          path: /health-check
+          method: get
     memorySize: 128
     tracing: Active
 
   createUser:
     handler: src/functions/user/create/index.createUser
     events:
-      - httpApi: 'POST /dev/create-user'
+      - http:
+          path: /create-user
+          method: post
     memorySize: 128
     tracing: Active
 
@@ -71,7 +75,9 @@ functions:
   readUser:
     handler: src/functions/user/read/index.readUser
     events:
-      - httpApi: 'GET /dev/user'
+      - http:
+          path: /user
+          method: get
     memorySize: 128
     tracing: Active
 
@@ -84,7 +90,6 @@ functions:
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
-
 
   updateUser:
     handler: src/functions/user/update/index.updateUser
@@ -99,35 +104,45 @@ functions:
   forgotPassword:
     handler: src/functions/user/forgotPassword/index.forgotPassword
     events:
-      - httpApi: 'POST /dev/forgot-password'
+      - http:
+          path: /forgot-password
+          method: post
     memorySize: 128
     tracing: Active
 
   resetPassword:
     handler: src/functions/user/resetPassword/index.resetPassword
     events:
-      - httpApi: 'POST /dev/reset-password'
+      - http:
+          path: /reset-password
+          method: post
     memorySize: 128
     tracing: Active
 
   login:
     handler: src/functions/session/login/index.login
     events:
-      - httpApi: 'POST /dev/login'
+      - http:
+          path: /login
+          method: post
     memorySize: 128
     tracing: Active
 
   checkin:
     handler: src/functions/session/checkin/index.checkin
     events:
-      - httpApi: 'POST /dev/check-in'
+      - http:
+          path: /check-in
+          method: post
     memorySize: 128
     tracing: Active
 
   logout:
     handler: src/functions/session/logout/index.logout
     events:
-      - httpApi: 'DELETE /dev/logout'
+      - http:
+          path: /logout
+          method: delete
     memorySize: 128
     tracing: Active
 
