@@ -80,6 +80,13 @@ functions:
     memorySize: 128
     tracing: Active
 
+  resetPassword:
+    handler: src/functions/user/resetPassword/index.resetPassword
+    events:
+      - httpApi: 'POST /dev/reset-password'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
