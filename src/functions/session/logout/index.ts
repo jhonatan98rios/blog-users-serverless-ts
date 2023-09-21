@@ -16,10 +16,6 @@ export const logout = async (event) => {
   await logoutService.execute(user)
 
   return {
-    statusCode: 200,
-    body: JSON.stringify(
-      { status: 202 },
-      null, 2
-    ),
+    statusCode: 202,
   };
 };

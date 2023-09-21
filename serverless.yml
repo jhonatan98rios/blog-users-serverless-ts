@@ -94,6 +94,20 @@ functions:
     memorySize: 128
     tracing: Active
 
+  checkin:
+    handler: src/functions/session/checkin/index.checkin
+    events:
+      - httpApi: 'POST /dev/check-in'
+    memorySize: 128
+    tracing: Active
+
+  logout:
+    handler: src/functions/session/logout/index.logout
+    events:
+      - httpApi: 'DELETE /dev/logout'
+    memorySize: 128
+    tracing: Active
+
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
