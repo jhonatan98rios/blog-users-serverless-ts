@@ -14,6 +14,11 @@ provider:
         functionName: adminAuthorizer
         identitySource:
           - $request.header.Authorization
+      authorizer:
+        type: request
+        functionName: authorizer
+        identitySource:
+          - $request.header.Authorization
 
   apiGateway:
     minimumCompressionSize: 1024
@@ -56,7 +61,10 @@ functions:
   listUsers:
     handler: src/functions/user/list/index.listUsers
     events:
-      - httpApi: 'GET /dev/users'
+      - http:
+          path: /users
+          method: get
+          authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
 
@@ -81,7 +89,10 @@ functions:
   updateUser:
     handler: src/functions/user/update/index.updateUser
     events:
-      - httpApi: 'PUT /dev/update-user'
+      - http:
+          path: /update-user
+          method: put
+          authorizer: authorizer
     memorySize: 128
     tracing: Active
 
