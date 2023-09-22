@@ -92,7 +92,7 @@ functions:
     handler: src/functions/user/updateRole/index.updateRoleUser
     events:
       - http:
-          path: /update-user-role
+          path: /update-user-role/{user}
           method: put
           authorizer: adminAuthorizer
     memorySize: 128
@@ -103,7 +103,7 @@ functions:
     handler: src/functions/user/update/index.updateUser
     events:
       - http:
-          path: /update-user
+          path: /update-user/{user}
           method: put
           authorizer: authorizer
     memorySize: 128
@@ -154,7 +154,7 @@ functions:
     handler: src/functions/session/logout/index.logout
     events:
       - http:
-          path: /logout
+          path: /logout/{user}
           method: delete
     memorySize: 128
     tracing: Active

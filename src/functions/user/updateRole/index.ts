@@ -10,7 +10,7 @@ export const updateRoleUser = async (event) => {
   const userRepository = new MongoDBUserRepository()
   const userTokenRepository = new MongoDBUserTokenRepository()
   const updateUserRoleService = new UpdateUserRoleService(userRepository, userTokenRepository)
-  const username = event.queryStringParameters.user
+  const username = event.pathParameters.user
   const { role } = JSON.parse(event.body) 
 
   const updatedUser = await updateUserRoleService.execute({ username, role })

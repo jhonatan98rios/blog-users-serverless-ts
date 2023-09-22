@@ -7,7 +7,7 @@ AWSXRay.captureAWS(require('aws-sdk'))
 
 export const logout = async (event) => {
 
-  const { user } = event.queryStringParameters
+  const { user } = event.pathParameters
 
   const userRepository = new MongoDBUserRepository()
   const userTokenRepository = new MongoDBUserTokenRepository()

@@ -7,7 +7,7 @@ AWSXRay.captureAWS(require('aws-sdk'))
 
 export const updateUser = async (event) => {
   
-  const username = event.queryStringParameters.user
+  const username = event.pathParameters.user
   const { currentPassword, password, passwordConfirmation } = JSON.parse(event.body)
   
   const userRepository = new MongoDBUserRepository()
