@@ -8,7 +8,7 @@ export const readUser = async (event) => {
 
   const userRepository = new MongoDBUserRepository()
   const readUserService = new ReadUserService(userRepository)
-  const { user } = event.queryStringParameters
+  const { user } = event.pathParameters
 
   const foundUser = await readUserService.execute(user)
 

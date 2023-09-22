@@ -25,13 +25,15 @@ provider:
     shouldStartNameWithService: true
   tracing:
     lambda: true # enable tracing
-  iamRoleStatements:
-    - Effect: "Allow" # xray permissions (required)
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow" # xray permissions (required)
+          Action:
+            - "xray:PutTraceSegments"
+            - "xray:PutTelemetryRecords"
+          Resource:
+            - "*"
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
@@ -44,6 +46,7 @@ provider:
 
 functions:
 
+
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
@@ -52,6 +55,7 @@ functions:
           method: get
     memorySize: 128
     tracing: Active
+
 
   createUser:
     handler: src/functions/user/create/index.createUser
@@ -62,24 +66,27 @@ functions:
     memorySize: 128
     tracing: Active
 
+
   listUsers:
     handler: src/functions/user/list/index.listUsers
     events:
       - http:
-          path: /users
+          path: /user
           method: get
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
 
+
   readUser:
     handler: src/functions/user/read/index.readUser
     events:
       - http:
-          path: /user
+          path: /user/{user}
           method: get
     memorySize: 128
     tracing: Active
+
 
   updateRoleUser:
     handler: src/functions/user/updateRole/index.updateRoleUser
@@ -91,6 +98,7 @@ functions:
     memorySize: 128
     tracing: Active
 
+
   updateUser:
     handler: src/functions/user/update/index.updateUser
     events:
@@ -101,6 +109,7 @@ functions:
     memorySize: 128
     tracing: Active
 
+
   forgotPassword:
     handler: src/functions/user/forgotPassword/index.forgotPassword
     events:
@@ -109,6 +118,7 @@ functions:
           method: post
     memorySize: 128
     tracing: Active
+
 
   resetPassword:
     handler: src/functions/user/resetPassword/index.resetPassword
@@ -119,6 +129,7 @@ functions:
     memorySize: 128
     tracing: Active
 
+
   login:
     handler: src/functions/session/login/index.login
     events:
@@ -127,6 +138,7 @@ functions:
           method: post
     memorySize: 128
     tracing: Active
+
 
   checkin:
     handler: src/functions/session/checkin/index.checkin
@@ -137,6 +149,7 @@ functions:
     memorySize: 128
     tracing: Active
 
+
   logout:
     handler: src/functions/session/logout/index.logout
     events:
@@ -145,6 +158,7 @@ functions:
           method: delete
     memorySize: 128
     tracing: Active
+
 
   authorizer:
     handler: src/functions/auth/authorizer/index.authorizer
@@ -162,3 +176,7 @@ package:
   individually: true
   exclude: 
     - node_modules
+
+custom:
+  serverless-offline:
+    httpPort: 5000
