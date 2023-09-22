@@ -92,7 +92,7 @@ functions:
     handler: src/functions/user/updateRole/index.updateRoleUser
     events:
       - http:
-          path: /update-user-role/{user}
+          path: /role/{user}
           method: put
           authorizer: adminAuthorizer
     memorySize: 128
