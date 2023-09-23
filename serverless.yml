@@ -19,6 +19,8 @@ provider:
         functionName: authorizer
         identitySource:
           - $request.header.Authorization
+  deploymentBucket:
+    name: 'blog-users-serverless-deployment-bucket'
 
   apiGateway:
     minimumCompressionSize: 1024
@@ -73,6 +75,7 @@ functions:
       - http:
           path: /user/
           method: get
+          authorizer: adminAuthorizer
     memorySize: 256
     tracing: Active
 
@@ -170,12 +173,16 @@ plugins:
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-dotenv-plugin
+  - serverless-layers
+  - serverless-deployment-bucket
 
 package: 
   individually: true
-  exclude: 
-    - node_modules
 
 custom:
   serverless-offline:
     httpPort: 5000
+
+  serverless-layers:
+    - common:
+      dependenciesPath: ./common/package.json

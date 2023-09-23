@@ -1,7 +1,8 @@
-import { addHours, isAfter } from "date-fns";
+
 import AppError, { ErrorResponse } from "../../../lib/domain/AppError"
 import { MongoDBUserRepository } from "src/lib/infra/MongoDBUserRepository";
 import { MongoDBUserTokenRepository } from "src/lib/infra/MongoDBUserTokenRepository";
+import { addHours, isAfter } from "src/lib/utils/date";
 
 
 type CheckInSessionResponse = {
@@ -33,7 +34,7 @@ export class CheckInSessionService {
 
         const compare = addHours(userToken.created_at, 2)
 
-        if (isAfter(Date.now(), compare)) {
+        if (isAfter(new Date(), compare)) {
             return AppError.json('Falha ao autenticar o usuário');
         }
 
