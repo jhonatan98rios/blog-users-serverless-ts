@@ -61,7 +61,7 @@ functions:
     handler: src/functions/user/create/index.createUser
     events:
       - http:
-          path: /create-user
+          path: /user/
           method: post
     memorySize: 128
     tracing: Active
@@ -71,10 +71,9 @@ functions:
     handler: src/functions/user/list/index.listUsers
     events:
       - http:
-          path: /user
+          path: /user/
           method: get
-          authorizer: adminAuthorizer
-    memorySize: 128
+    memorySize: 256
     tracing: Active
 
 
@@ -92,7 +91,7 @@ functions:
     handler: src/functions/user/updateRole/index.updateRoleUser
     events:
       - http:
-          path: /role/{user}
+          path: /user/role/{user}
           method: put
           authorizer: adminAuthorizer
     memorySize: 128
@@ -134,7 +133,7 @@ functions:
     handler: src/functions/session/login/index.login
     events:
       - http:
-          path: /login
+          path: /user/login
           method: post
     memorySize: 128
     tracing: Active
@@ -144,7 +143,7 @@ functions:
     handler: src/functions/session/checkin/index.checkin
     events:
       - http:
-          path: /check-in
+          path: /user/check-in
           method: post
     memorySize: 128
     tracing: Active
@@ -154,7 +153,7 @@ functions:
     handler: src/functions/session/logout/index.logout
     events:
       - http:
-          path: /logout/{user}
+          path: /user/logout/{user}
           method: delete
     memorySize: 128
     tracing: Active
