@@ -1,5 +1,5 @@
 service: blog-users-serverless
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 useDotenv: true
 
@@ -7,7 +7,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   httpApi:
-    payload: '2.0'
+    payload: "2.0"
     authorizers:
       adminAuthorizer:
         type: request
@@ -20,7 +20,7 @@ provider:
         identitySource:
           - $request.header.Authorization
   deploymentBucket:
-    name: 'blog-users-serverless-deployment-bucket'
+    name: "blog-users-serverless-deployment-bucket"
 
   apiGateway:
     minimumCompressionSize: 1024
@@ -37,8 +37,8 @@ provider:
           Resource:
             - "*"
   environment:
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
-    NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000"
     NODE_PATH: "./:/opt/node_modules"
     DATABASE_USER: ${env:DATABASE_USER}
     DATABASE_PASS: ${env:DATABASE_PASS}
@@ -54,7 +54,7 @@ functions:
           path: /health-check
           method: get
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -65,7 +65,7 @@ functions:
           path: /user/
           method: post
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -76,7 +76,7 @@ functions:
           path: /user/
           method: get
           cors:
-            origin: '*'
+            origin: "*"
           authorizer: adminAuthorizer
     memorySize: 256
     tracing: Active
@@ -88,7 +88,7 @@ functions:
           path: /user/{user}
           method: get
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -99,7 +99,7 @@ functions:
           path: /user/role/{user}
           method: put
           cors:
-            origin: '*'
+            origin: "*"
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
@@ -111,7 +111,7 @@ functions:
           path: /update-user/{user}
           method: put
           cors:
-            origin: '*'
+            origin: "*"
           authorizer: authorizer
     memorySize: 128
     tracing: Active
@@ -123,7 +123,7 @@ functions:
           path: /forgot-password
           method: post
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -134,7 +134,7 @@ functions:
           path: /reset-password
           method: post
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -145,7 +145,7 @@ functions:
           path: /user/login
           method: post
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -156,7 +156,7 @@ functions:
           path: /user/check-in
           method: post
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -167,7 +167,7 @@ functions:
           path: /user/logout/{user}
           method: delete
           cors:
-            origin: '*'
+            origin: "*"
     memorySize: 128
     tracing: Active
 
@@ -178,16 +178,25 @@ functions:
     handler: src/functions/auth/adminAuthorizer/index.adminAuthorizer
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-esbuild
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-dotenv-plugin
   - serverless-deployment-bucket
 
-package: 
+package:
   individually: true
   excludeDevDependencies: true
 
 custom:
   serverless-offline:
     httpPort: 5000
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
+    target: "node18"
+    define:
+      require.resolve: undefined
+    platform: "node"
+    concurrency: 10
