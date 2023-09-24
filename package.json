@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "Serverless blog users serverless",
   "dependencies": {
-    "aws-sdk": "^2.1447.0",
-    "aws-xray-sdk": "^3.5.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "graceful-fs": "^4.2.11",

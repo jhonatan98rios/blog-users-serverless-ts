@@ -1,9 +1,5 @@
-
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
-import * as AWSXRay from 'aws-xray-sdk'
 import { UpdateUserService } from "./UpdateUserService";
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const updateUser = async (event) => {
   

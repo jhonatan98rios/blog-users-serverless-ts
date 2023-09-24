@@ -1,8 +1,5 @@
 import { CreateUserService } from "./CreateUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
-import * as AWSXRay from 'aws-xray-sdk'
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const createUser = async (event) => {
 

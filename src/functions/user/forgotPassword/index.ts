@@ -1,9 +1,6 @@
-import * as AWSXRay from 'aws-xray-sdk'
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import SESMailProvider from "../../../lib/infra/SESMailProvider";
 import { ForgotPasswordService } from "./ForgotPasswordService";
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const forgotPassword = async (event) => {
   

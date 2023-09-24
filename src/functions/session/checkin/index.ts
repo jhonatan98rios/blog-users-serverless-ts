@@ -1,9 +1,6 @@
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
-import * as AWSXRay from 'aws-xray-sdk'
 import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
 import { CheckInSessionService } from "./CheckInSessionService";
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const checkin = async (event) => {
 

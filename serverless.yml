@@ -47,8 +47,6 @@ provider:
     CLIENT_URL: ${env:CLIENT_URL}
 
 functions:
-
-
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
@@ -58,7 +56,6 @@ functions:
     memorySize: 128
     tracing: Active
 
-
   createUser:
     handler: src/functions/user/create/index.createUser
     events:
@@ -67,7 +64,6 @@ functions:
           method: post
     memorySize: 128
     tracing: Active
-
 
   listUsers:
     handler: src/functions/user/list/index.listUsers
@@ -79,7 +75,6 @@ functions:
     memorySize: 256
     tracing: Active
 
-
   readUser:
     handler: src/functions/user/read/index.readUser
     events:
@@ -88,7 +83,6 @@ functions:
           method: get
     memorySize: 128
     tracing: Active
-
 
   updateRoleUser:
     handler: src/functions/user/updateRole/index.updateRoleUser
@@ -100,7 +94,6 @@ functions:
     memorySize: 128
     tracing: Active
 
-
   updateUser:
     handler: src/functions/user/update/index.updateUser
     events:
@@ -111,7 +104,6 @@ functions:
     memorySize: 128
     tracing: Active
 
-
   forgotPassword:
     handler: src/functions/user/forgotPassword/index.forgotPassword
     events:
@@ -120,7 +112,6 @@ functions:
           method: post
     memorySize: 128
     tracing: Active
-
 
   resetPassword:
     handler: src/functions/user/resetPassword/index.resetPassword
@@ -131,7 +122,6 @@ functions:
     memorySize: 128
     tracing: Active
 
-
   login:
     handler: src/functions/session/login/index.login
     events:
@@ -140,7 +130,6 @@ functions:
           method: post
     memorySize: 128
     tracing: Active
-
 
   checkin:
     handler: src/functions/session/checkin/index.checkin
@@ -151,7 +140,6 @@ functions:
     memorySize: 128
     tracing: Active
 
-
   logout:
     handler: src/functions/session/logout/index.logout
     events:
@@ -160,7 +148,6 @@ functions:
           method: delete
     memorySize: 128
     tracing: Active
-
 
   authorizer:
     handler: src/functions/auth/authorizer/index.authorizer
@@ -173,16 +160,12 @@ plugins:
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-dotenv-plugin
-  - serverless-layers
   - serverless-deployment-bucket
 
 package: 
   individually: true
+  excludeDevDependencies: true
 
 custom:
   serverless-offline:
     httpPort: 5000
-
-  serverless-layers:
-    - common:
-      dependenciesPath: ./common/package.json

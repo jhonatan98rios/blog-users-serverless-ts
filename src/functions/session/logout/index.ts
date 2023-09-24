@@ -1,9 +1,7 @@
-import * as AWSXRay from 'aws-xray-sdk'
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
 import { LogoutSessionService } from "./LogoutSessionService";
 
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const logout = async (event) => {
 

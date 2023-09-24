@@ -1,8 +1,5 @@
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
-import * as AWSXRay from 'aws-xray-sdk'
 import { ResetPasswordService } from "./ResetPasswordService";
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const resetPassword = async (event) => {
 

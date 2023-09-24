@@ -1,8 +1,5 @@
 import { ReadUserService } from "./ReadUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
-import * as AWSXRay from 'aws-xray-sdk'
-
-AWSXRay.captureAWS(require('aws-sdk'))
 
 export const readUser = async (event) => {
 
