@@ -10,6 +10,10 @@ export const listUsers = async () => {
 
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
     body: JSON.stringify(
         users,
       null, 2

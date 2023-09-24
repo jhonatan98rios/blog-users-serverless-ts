@@ -1,4 +1,4 @@
-import { MongoDBUserTokenRepository } from "src/lib/infra/MongoDBUserTokenRepository"
+import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository"
 import AppError, { ErrorResponse } from "../../../lib/domain/AppError"
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository"
 

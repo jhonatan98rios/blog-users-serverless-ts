@@ -15,5 +15,9 @@ export const logout = async (event) => {
 
   return {
     statusCode: 202,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
   };
 };

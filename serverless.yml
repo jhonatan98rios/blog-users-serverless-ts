@@ -53,6 +53,8 @@ functions:
       - http:
           path: /health-check
           method: get
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -62,6 +64,8 @@ functions:
       - http:
           path: /user/
           method: post
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -71,6 +75,8 @@ functions:
       - http:
           path: /user/
           method: get
+          cors:
+            origin: '*'
           authorizer: adminAuthorizer
     memorySize: 256
     tracing: Active
@@ -81,6 +87,8 @@ functions:
       - http:
           path: /user/{user}
           method: get
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -90,6 +98,8 @@ functions:
       - http:
           path: /user/role/{user}
           method: put
+          cors:
+            origin: '*'
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
@@ -100,6 +110,8 @@ functions:
       - http:
           path: /update-user/{user}
           method: put
+          cors:
+            origin: '*'
           authorizer: authorizer
     memorySize: 128
     tracing: Active
@@ -110,6 +122,8 @@ functions:
       - http:
           path: /forgot-password
           method: post
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -119,6 +133,8 @@ functions:
       - http:
           path: /reset-password
           method: post
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -128,6 +144,8 @@ functions:
       - http:
           path: /user/login
           method: post
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -137,6 +155,8 @@ functions:
       - http:
           path: /user/check-in
           method: post
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 
@@ -146,6 +166,8 @@ functions:
       - http:
           path: /user/logout/{user}
           method: delete
+          cors:
+            origin: '*'
     memorySize: 128
     tracing: Active
 

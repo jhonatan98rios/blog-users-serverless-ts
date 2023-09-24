@@ -1,8 +1,8 @@
 
 import AppError, { ErrorResponse } from "../../../lib/domain/AppError"
-import { MongoDBUserRepository } from "src/lib/infra/MongoDBUserRepository";
-import { MongoDBUserTokenRepository } from "src/lib/infra/MongoDBUserTokenRepository";
-import { addHours, isAfter } from "src/lib/utils/date";
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
+import { addHours, isAfter } from "../../../lib/utils/date";
 
 
 type CheckInSessionResponse = {

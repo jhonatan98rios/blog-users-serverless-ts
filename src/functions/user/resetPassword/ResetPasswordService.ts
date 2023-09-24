@@ -3,7 +3,7 @@ import { generateHash } from '../../../lib/infra/hash';
 import AppError, { ErrorResponse } from '../../../lib/domain/AppError';
 import { Roles, User } from '../../../lib/domain/User';
 import { authConfig } from '../../../lib/infra/authConfig';
-import { MongoDBUserRepository } from 'src/lib/infra/MongoDBUserRepository';
+import { MongoDBUserRepository } from '../../../lib/infra/MongoDBUserRepository';
 
 interface ITokenPayload {
     iat: number
