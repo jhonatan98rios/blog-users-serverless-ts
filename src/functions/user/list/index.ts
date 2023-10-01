@@ -1,5 +1,8 @@
 import { ListUsersService } from "./ListUsersService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import Database from "src/lib/infra/Database";
+
+Database.connect()
 
 export const listUsers = async () => {
 

@@ -1,6 +1,9 @@
+import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
 import { CheckInSessionService } from "./CheckInSessionService";
+
+Database.connect()
 
 export const checkin = async (event) => {
 

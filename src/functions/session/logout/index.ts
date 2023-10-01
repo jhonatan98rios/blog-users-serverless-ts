@@ -1,7 +1,9 @@
+import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
 import { LogoutSessionService } from "./LogoutSessionService";
 
+Database.connect()
 
 export const logout = async (event) => {
 
