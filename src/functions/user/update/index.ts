@@ -1,5 +1,8 @@
+import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import { UpdateUserService } from "./UpdateUserService";
+
+Database.connect()
 
 export const updateUser = async (event) => {
   

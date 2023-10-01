@@ -1,6 +1,9 @@
+import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import SESMailProvider from "../../../lib/infra/SESMailProvider";
 import { ForgotPasswordService } from "./ForgotPasswordService";
+
+Database.connect()
 
 export const forgotPassword = async (event) => {
   

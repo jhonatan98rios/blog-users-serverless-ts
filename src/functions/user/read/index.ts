@@ -1,5 +1,8 @@
 import { ReadUserService } from "./ReadUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import Database from "src/lib/infra/Database";
+
+Database.connect()
 
 export const readUser = async (event) => {
 

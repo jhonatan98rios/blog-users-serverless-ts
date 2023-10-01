@@ -1,5 +1,8 @@
 import { CreateUserService } from "./CreateUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import Database from "src/lib/infra/Database";
+
+Database.connect()
 
 export const createUser = async (event) => {
 

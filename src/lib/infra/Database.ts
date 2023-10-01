@@ -3,23 +3,34 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-export default class Database {
+let cachedDb: typeof mongoose | null = null;
 
+export default class Database {
+    
     static async connect() {
         mongoose.set("strictQuery", false);
 
+        if (cachedDb) {
+            return cachedDb;
+        }
+
         try {
-            /* const connectionString = `mongodb+srv://${process.env.DATABASE_HOST!}`
+            const connectionString = `mongodb://${process.env.DATABASE_HOST!}`
             const conn = await mongoose.connect(connectionString, {
                 dbName: process.env.DATABASE_NAME!,
                 user: process.env.DATABASE_USER!,
-                pass: process.env.DATABASE_PASS!
+                pass: process.env.DATABASE_PASS!,
+                retryReads: true,
+                retryWrites: true,
+            })
+
+            /* const connectionString = `mongodb://${process.env.DATABASE_USER!}:${process.env.DATABASE_PASS!}@${process.env.DATABASE_HOST!}`
+            const conn = await mongoose.connect(connectionString, {
+                dbName: process.env.DATABASE_NAME!
             }) */
 
-            const connectionString = `mongodb+srv://${process.env.DATABASE_USER!}:${process.env.DATABASE_PASS!}@${process.env.DATABASE_HOST!}/${process.env.DATABASE_NAME!}`
-            const conn = await mongoose.connect(connectionString)
-
             console.log('Database connection successful')
+            cachedDb = conn
             return conn
             
         } catch (err) {

@@ -1,5 +1,8 @@
+import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import { ResetPasswordService } from "./ResetPasswordService";
+
+Database.connect()
 
 export const resetPassword = async (event) => {
 

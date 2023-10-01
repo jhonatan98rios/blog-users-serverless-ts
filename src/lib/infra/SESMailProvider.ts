@@ -1,3 +1,5 @@
+/* UPGRAADE FOR V3 https://sumandev-p.medium.com/ses-sending-email-using-sdk-for-javascript-v3-63162056f820 */
+
 import { SES } from 'aws-sdk';
 import AppError from '../domain/AppError';
 import * as dotenv from 'dotenv'
