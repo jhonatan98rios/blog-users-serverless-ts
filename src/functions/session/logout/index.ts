@@ -18,7 +18,7 @@ export const logout = async (event) => {
   return {
     statusCode: 202,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://jhonatan-dev-rios-blog.vercel.app',
       'Access-Control-Allow-Credentials': true,
     },
   };

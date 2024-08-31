@@ -20,7 +20,7 @@ export const login = async (event) => {
   return {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://jhonatan-dev-rios-blog.vercel.app',
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
