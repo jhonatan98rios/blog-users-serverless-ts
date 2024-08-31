@@ -55,7 +55,7 @@ functions:
           path: /health-check
           method: get
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -77,7 +77,7 @@ functions:
           path: /user/
           method: get
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
@@ -89,7 +89,7 @@ functions:
           path: /user/{user}
           method: get
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -100,7 +100,7 @@ functions:
           path: /user/role/{user}
           method: put
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
@@ -112,7 +112,7 @@ functions:
           path: /update-user/{user}
           method: put
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
           authorizer: authorizer
     memorySize: 128
     tracing: Active
@@ -124,7 +124,7 @@ functions:
           path: /forgot-password
           method: post
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -135,7 +135,7 @@ functions:
           path: /reset-password
           method: post
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -146,7 +146,7 @@ functions:
           path: /user/login
           method: post
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -157,7 +157,7 @@ functions:
           path: /user/check-in
           method: post
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
@@ -168,7 +168,7 @@ functions:
           path: /user/logout/{user}
           method: delete
           cors:
-            origin: "https://hardware-guide-web.vercel.app"
+            origin: "https://jhonatan-dev-rios-blog.vercel.app"
     memorySize: 128
     tracing: Active
 
