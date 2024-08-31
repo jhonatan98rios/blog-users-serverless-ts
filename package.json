@@ -4,6 +4,7 @@
   "description": "Serverless blog users serverless",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "blog-users-serverless": "file:",
     "dotenv": "^16.3.1",
     "graceful-fs": "^4.2.11",
     "jsonwebtoken": "^9.0.1",

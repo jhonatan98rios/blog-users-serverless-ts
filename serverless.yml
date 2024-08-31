@@ -79,7 +79,7 @@ functions:
           cors:
             origin: "*"
           authorizer: adminAuthorizer
-    memorySize: 256
+    memorySize: 128
     tracing: Active
 
   readUser:

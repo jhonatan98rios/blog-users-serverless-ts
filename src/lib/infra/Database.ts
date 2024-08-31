@@ -15,19 +15,19 @@ export default class Database {
         }
 
         try {
-            const connectionString = `mongodb://${process.env.DATABASE_HOST!}`
-            const conn = await mongoose.connect(connectionString, {
-                dbName: process.env.DATABASE_NAME!,
-                user: process.env.DATABASE_USER!,
-                pass: process.env.DATABASE_PASS!,
-                retryReads: true,
-                retryWrites: true,
-            })
+            // const connectionString = `mongodb://${process.env.DATABASE_HOST!}`
+            // const conn = await mongoose.connect(connectionString, {
+            //     dbName: process.env.DATABASE_NAME!,
+            //     user: process.env.DATABASE_USER!,
+            //     pass: process.env.DATABASE_PASS!,
+            //     retryReads: true,
+            //     retryWrites: true,
+            // })
 
-            /* const connectionString = `mongodb://${process.env.DATABASE_USER!}:${process.env.DATABASE_PASS!}@${process.env.DATABASE_HOST!}`
+            const connectionString = `mongodb+srv://${process.env.DATABASE_USER!}:${process.env.DATABASE_PASS!}@${process.env.DATABASE_HOST!}/?retryWrites=true&w=majority&appName=ClusterBlog"`
             const conn = await mongoose.connect(connectionString, {
                 dbName: process.env.DATABASE_NAME!
-            }) */
+            })
 
             console.log('Database connection successful')
             cachedDb = conn
