@@ -1,4 +1,4 @@
-import { CreateUserService } from "./CreateUserService";
+import { ReadUserService } from "./ReadUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import Database from "src/lib/infra/Database";
 import mongoose from "mongoose";
@@ -18,18 +18,15 @@ async function connect() {
   return client;
 }
 
-export const createUser = async (event) => {
+export const readUser = async (event) => {
 
   await connect();
 
-  const { user, mail, password, consent } = JSON.parse(event.body) 
-
   const userRepository = new MongoDBUserRepository()
-  const createUserService = new CreateUserService(userRepository)
+  const readUserService = new ReadUserService(userRepository)
+  const { user } = event.pathParameters
 
-  const createdUser = await createUserService.execute({
-    user, mail, password, consent
-  })
+  const foundUser = await readUserService.execute(user)
 
   return {
     statusCode: 200,
@@ -38,7 +35,7 @@ export const createUser = async (event) => {
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
-      createdUser,
+      foundUser,
       null, 2
     ),
   };

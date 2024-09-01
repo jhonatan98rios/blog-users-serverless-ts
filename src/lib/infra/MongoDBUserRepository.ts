@@ -1,22 +1,11 @@
-import { IUser } from "./User";
-import { AbstractUserRepository } from "./AbstractUserRepository";
+import { IUser } from "../domain/User";
 import { IUserModel, UserModel } from "./User.schema";
-import * as dotenv from 'dotenv'
-import Database from "./Database";
 
-dotenv.config()
-
-export class MongoDBUserRepository implements AbstractUserRepository {
+export class MongoDBUserRepository {
 
     private userModel: IUserModel
 
     constructor() {
-        new Database({
-            user: process.env.DATABASE_USER!,
-            password: process.env.DATABASE_PASS!,
-            collection: process.env.DATABASE_NAME!,
-        })
-
         this.userModel = UserModel.getInstance()
     }
 

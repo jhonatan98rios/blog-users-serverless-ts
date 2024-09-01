@@ -1,6 +1,7 @@
-import { CreateUserService } from "./CreateUserService";
-import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import Database from "src/lib/infra/Database";
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
+import { LogoutSessionService } from "./LogoutSessionService";
 import mongoose from "mongoose";
 import AppError from "src/lib/domain/AppError";
 
@@ -18,28 +19,23 @@ async function connect() {
   return client;
 }
 
-export const createUser = async (event) => {
+export const logout = async (event) => {
 
   await connect();
 
-  const { user, mail, password, consent } = JSON.parse(event.body) 
+  const { user } = event.pathParameters
 
   const userRepository = new MongoDBUserRepository()
-  const createUserService = new CreateUserService(userRepository)
+  const userTokenRepository = new MongoDBUserTokenRepository()
+  const logoutService = new LogoutSessionService(userRepository, userTokenRepository)
 
-  const createdUser = await createUserService.execute({
-    user, mail, password, consent
-  })
+  await logoutService.execute(user)
 
   return {
-    statusCode: 200,
+    statusCode: 202,
     headers: {
       'Access-Control-Allow-Origin': 'https://www.jhonatan-dev-rios-blog.com.br',
       'Access-Control-Allow-Credentials': true,
     },
-    body: JSON.stringify(
-      createdUser,
-      null, 2
-    ),
   };
 };

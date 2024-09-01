@@ -1,6 +1,7 @@
-import { CreateUserService } from "./CreateUserService";
-import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import Database from "src/lib/infra/Database";
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository"; 
+import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
+import { CreateSessionService } from "./CreateSessionService";
 import mongoose from "mongoose";
 import AppError from "src/lib/domain/AppError";
 
@@ -18,17 +19,18 @@ async function connect() {
   return client;
 }
 
-export const createUser = async (event) => {
+export const login = async (event) => {
 
   await connect();
 
-  const { user, mail, password, consent } = JSON.parse(event.body) 
+  const { user, password } = JSON.parse(event.body)
 
   const userRepository = new MongoDBUserRepository()
-  const createUserService = new CreateUserService(userRepository)
+  const userTokenRepository = new MongoDBUserTokenRepository()
+  const createSession = new CreateSessionService(userRepository, userTokenRepository)
 
-  const createdUser = await createUserService.execute({
-    user, mail, password, consent
+  const session = await createSession.execute({
+    user, password
   })
 
   return {
@@ -38,7 +40,7 @@ export const createUser = async (event) => {
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
-      createdUser,
+      session,
       null, 2
     ),
   };

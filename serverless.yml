@@ -1,5 +1,5 @@
 service: blog-users-serverless
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 useDotenv: true
 
@@ -7,51 +7,231 @@ provider:
   name: aws
   runtime: nodejs18.x
   httpApi:
-    payload: '2.0'
+    payload: "2.0"
+    authorizers:
+      adminAuthorizer:
+        type: request
+        functionName: adminAuthorizer
+        identitySource:
+          - $request.header.Authorization
+      authorizer:
+        type: request
+        functionName: authorizer
+        identitySource:
+          - $request.header.Authorization
+  deploymentBucket:
+    name: "blog-users-serverless-deployment-bucket"
+
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
   tracing:
     lambda: true # enable tracing
-  iamRoleStatements:
-    - Effect: "Allow" # xray permissions (required)
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow" # xray permissions (required)
+          Action:
+            - "xray:PutTraceSegments"
+            - "xray:PutTelemetryRecords"
+          Resource:
+            - "*"
   environment:
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
-    NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
-    NODE_PATH: "./:/opt/node_modules"
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000"
+    #NODE_PATH: "./:/opt/node_modules"
     DATABASE_USER: ${env:DATABASE_USER}
     DATABASE_PASS: ${env:DATABASE_PASS}
     DATABASE_NAME: ${env:DATABASE_NAME}
+    DATABASE_HOST: ${env:DATABASE_HOST}
     APP_SECRET: ${env:APP_SECRET}
     CLIENT_URL: ${env:CLIENT_URL}
+
+layers:
+  CommonLibs:
+    path: layer/nodejs
+    compatibleRuntimes:
+      - nodejs18.x
 
 functions:
   healthCheck:
     handler: src/functions/health-check/index.healthCheck
     events:
-      - httpApi: 'GET /dev/health-check'
+      - http:
+          path: /health-check
+          method: get
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
 
   createUser:
     handler: src/functions/user/create/index.createUser
     events:
-      - httpApi: 'POST /dev/create-user'
+      - http:
+          path: /user/
+          method: post
+          cors:
+            origin: "*"
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  listUsers:
+    handler: src/functions/user/list/index.listUsers
+    events:
+      - http:
+          path: /user/
+          method: get
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+          authorizer: adminAuthorizer
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  readUser:
+    handler: src/functions/user/read/index.readUser
+    events:
+      - http:
+          path: /user/{user}
+          method: get
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  updateRoleUser:
+    handler: src/functions/user/updateRole/index.updateRoleUser
+    events:
+      - http:
+          path: /user/role/{user}
+          method: put
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+          authorizer: adminAuthorizer
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  updateUser:
+    handler: src/functions/user/update/index.updateUser
+    events:
+      - http:
+          path: /update-user/{user}
+          method: put
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+          authorizer: authorizer
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  forgotPassword:
+    handler: src/functions/user/forgotPassword/index.forgotPassword
+    events:
+      - http:
+          path: /forgot-password
+          method: post
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  resetPassword:
+    handler: src/functions/user/resetPassword/index.resetPassword
+    events:
+      - http:
+          path: /reset-password
+          method: post
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  login:
+    handler: src/functions/session/login/index.login
+    events:
+      - http:
+          path: /user/login
+          method: post
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 256
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  checkin:
+    handler: src/functions/session/checkin/index.checkin
+    events:
+      - http:
+          path: /user/check-in
+          method: post
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 256
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  logout:
+    handler: src/functions/session/logout/index.logout
+    events:
+      - http:
+          path: /user/logout/{user}
+          method: delete
+          cors:
+            origin: https://www.jhonatan-dev-rios-blog.com.br
+    memorySize: 128
+    tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
+  authorizer:
+    handler: src/functions/auth/authorizer/index.authorizer
+
+  adminAuthorizer:
+    handler: src/functions/auth/adminAuthorizer/index.adminAuthorizer
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-esbuild
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-dotenv-plugin
+  - serverless-deployment-bucket
 
-package: 
+package:
   individually: true
-  exclude: 
-    - node_modules
+  excludeDevDependencies: true
+  exclude:
+    - node_modules/** # Excluir node_modules do pacote se você usar Lambda Layers
+    - test/**
+    - docs/**
+    - src/**/tests/** # Excluir testes e documentos
+
+custom:
+  serverless-offline:
+    httpPort: 5000
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: false
+    target: "node18"
+    define:
+      require.resolve: undefined
+    platform: "node"
+    concurrency: 10

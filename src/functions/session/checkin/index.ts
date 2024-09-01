@@ -1,6 +1,7 @@
-import { CreateUserService } from "./CreateUserService";
-import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import Database from "src/lib/infra/Database";
+import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
+import { MongoDBUserTokenRepository } from "../../../lib/infra/MongoDBUserTokenRepository";
+import { CheckInSessionService } from "./CheckInSessionService";
 import mongoose from "mongoose";
 import AppError from "src/lib/domain/AppError";
 
@@ -18,18 +19,17 @@ async function connect() {
   return client;
 }
 
-export const createUser = async (event) => {
+export const checkin = async (event) => {
 
-  await connect();
+  await connect()
 
-  const { user, mail, password, consent } = JSON.parse(event.body) 
+  const { token } = JSON.parse(event.body)
 
   const userRepository = new MongoDBUserRepository()
-  const createUserService = new CreateUserService(userRepository)
+  const userTokenRepository = new MongoDBUserTokenRepository()
+  const checkInSession = new CheckInSessionService(userRepository, userTokenRepository)
 
-  const createdUser = await createUserService.execute({
-    user, mail, password, consent
-  })
+  const session = await checkInSession.execute(token)
 
   return {
     statusCode: 200,
@@ -38,7 +38,7 @@ export const createUser = async (event) => {
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
-      createdUser,
+      session,
       null, 2
     ),
   };
