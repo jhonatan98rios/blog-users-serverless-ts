@@ -1,92 +1,30 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Clean Architecture Serverless Blog
 
-# Serverless Framework Node HTTP API on AWS
+**Clean Architecture Serverless Blog** is a highly maintainable and scalable blog application built with Express and TypeScript. This project adheres to Domain-Driven Design (DDD) and Clean Architecture principles, ensuring separation of concerns and a modular codebase. The deployment is managed with Cloudformation, making it easy to deploy on AWS Lambda Functions.
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+## Overview
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+The **Clean Architecture Blog** is designed to be a robust and flexible blogging platform. By leveraging Clean Architecture and DDD, the application ensures that business logic is kept separate from implementation details, making it easier to maintain and scale. The infrastructure is defined as code using Terraform, allowing seamless deployment and management on AWS.
 
-## Usage
+## Features
 
-### Deployment
+- **Modular Design:** Built with DDD and Clean Architecture for clear separation of concerns.
+- **TypeScript:** Type-safe codebase ensures reliability and scalability.
+- **Serverless Framework:** Robust and flexible framework to create lambda functions, api gateways and others serverless infrastructures.
+- **Scalable Deployment:** Easily scale the application on AWS as traffic increases.
 
-```
-$ serverless deploy
-```
+## Technology Stack
 
-After deploying, you should see output similar to:
+- **Serverless Framework:** Web framework for Node.js.
+- **TypeScript:** Superset of JavaScript for type-safe code.
+- **Clean Architecture:** Ensures modularity and maintainability.
+- **Domain-Driven Design (DDD):** Organizes code around the core domain.
 
-```bash
-Deploying aws-node-http-api-project to stage dev (us-east-1)
+## Getting Started
 
-✔ Service deployed to stack aws-node-http-api-project-dev (152s)
+### Prerequisites
 
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: aws-node-http-api-project-dev-hello (1.9 kB)
-```
-
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
-
-### Invocation
-
-After successful deployment, you can call the created application via HTTP:
-
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
-
-Which should result in response similar to the following (removed `input` content for brevity):
-
-```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
-  }
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
-
-
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
-
-```bash
-serverless plugin install -n serverless-offline
-```
-
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
-
-```
-serverless offline
-```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+- **Node.js 16 or higher**
+- **npm or yarn**
+- **AWS CLI:** Configured with your AWS credentials.
+- **Serverless Framework CLI**
