@@ -18,7 +18,7 @@ export const checkin = async (event) => {
   return {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Origin': 'https://jhonatan-dev-rios-blog.com.br',
+      'Access-Control-Allow-Origin': 'https://www.jhonatan-dev-rios-blog.com.br',
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
