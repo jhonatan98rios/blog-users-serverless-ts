@@ -19,8 +19,8 @@ class SESMailProvider {
 
   constructor() {
     this.client = new SES({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.CLOUD_ACCESS_KEY_ID,
+      secretAccessKey: process.env.CLOUD_SECRET_ACCESS_KEY,
       region: 'us-east-1',
     })
   }

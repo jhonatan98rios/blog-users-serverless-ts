@@ -12,7 +12,7 @@ export const healthCheck = async (event) => {
   return {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Origin': 'https://jhonatan-dev-rios-blog.vercel.app', 
+      'Access-Control-Allow-Origin': 'https://jhonatan-dev-rios-blog.com.br', 
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify(
