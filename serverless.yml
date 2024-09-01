@@ -39,13 +39,19 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000"
-    NODE_PATH: "./:/opt/node_modules"
+    #NODE_PATH: "./:/opt/node_modules"
     DATABASE_USER: ${env:DATABASE_USER}
     DATABASE_PASS: ${env:DATABASE_PASS}
     DATABASE_NAME: ${env:DATABASE_NAME}
     DATABASE_HOST: ${env:DATABASE_HOST}
     APP_SECRET: ${env:APP_SECRET}
     CLIENT_URL: ${env:CLIENT_URL}
+
+layers:
+  CommonLibs:
+    path: layer/nodejs
+    compatibleRuntimes:
+      - nodejs18.x
 
 functions:
   healthCheck:
@@ -58,6 +64,9 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
+
 
   createUser:
     handler: src/functions/user/create/index.createUser
@@ -69,6 +78,8 @@ functions:
             origin: "*"
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   listUsers:
     handler: src/functions/user/list/index.listUsers
@@ -81,6 +92,8 @@ functions:
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   readUser:
     handler: src/functions/user/read/index.readUser
@@ -92,6 +105,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   updateRoleUser:
     handler: src/functions/user/updateRole/index.updateRoleUser
@@ -104,6 +119,8 @@ functions:
           authorizer: adminAuthorizer
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   updateUser:
     handler: src/functions/user/update/index.updateUser
@@ -116,6 +133,8 @@ functions:
           authorizer: authorizer
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   forgotPassword:
     handler: src/functions/user/forgotPassword/index.forgotPassword
@@ -127,6 +146,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   resetPassword:
     handler: src/functions/user/resetPassword/index.resetPassword
@@ -138,6 +159,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   login:
     handler: src/functions/session/login/index.login
@@ -149,6 +172,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 256
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   checkin:
     handler: src/functions/session/checkin/index.checkin
@@ -160,6 +185,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 256
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   logout:
     handler: src/functions/session/logout/index.logout
@@ -171,6 +198,8 @@ functions:
             origin: https://www.jhonatan-dev-rios-blog.com.br
     memorySize: 128
     tracing: Active
+    layers:
+      - {Ref: CommonLibsLambdaLayer }  # Refere-se ao layer definido acima
 
   authorizer:
     handler: src/functions/auth/authorizer/index.authorizer
@@ -188,6 +217,11 @@ plugins:
 package:
   individually: true
   excludeDevDependencies: true
+  exclude:
+    - node_modules/** # Excluir node_modules do pacote se você usar Lambda Layers
+    - test/**
+    - docs/**
+    - src/**/tests/** # Excluir testes e documentos
 
 custom:
   serverless-offline:
@@ -195,7 +229,7 @@ custom:
   esbuild:
     bundle: true
     minify: true
-    sourcemap: true
+    sourcemap: false
     target: "node18"
     define:
       require.resolve: undefined

@@ -1,13 +1,24 @@
 import AppError from "src/lib/domain/AppError";
 import Database from "src/lib/infra/Database";
+import mongoose from 'mongoose'
+
+let client: typeof mongoose;
+
+async function connect() {
+  if (!client) {
+
+    try {
+      client = await Database.connect();
+    } catch (err) {
+      return AppError.json("Erro ao conectar no banco: " + err, 500)
+    }
+  }
+  return client;
+}
 
 export const healthCheck = async (event) => {
 
-  try {
-    await Database.connect()
-  } catch (err) {
-    return AppError.json("Erro ao conectar no banco: " + err, 500)
-  }
+  await connect();
 
   return {
     statusCode: 200,

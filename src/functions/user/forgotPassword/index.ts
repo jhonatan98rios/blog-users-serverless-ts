@@ -2,10 +2,26 @@ import Database from "src/lib/infra/Database";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import SESMailProvider from "../../../lib/infra/SESMailProvider";
 import { ForgotPasswordService } from "./ForgotPasswordService";
+import mongoose from "mongoose";
+import AppError from "src/lib/domain/AppError";
 
-Database.connect()
+let client: typeof mongoose;
+
+async function connect() {
+  if (!client) {
+
+    try {
+      client = await Database.connect();
+    } catch (err) {
+      return AppError.json("Erro ao conectar no banco: " + err, 500)
+    }
+  }
+  return client;
+}
 
 export const forgotPassword = async (event) => {
+
+  await connect();
   
   const { mail } = JSON.parse(event.body)
 

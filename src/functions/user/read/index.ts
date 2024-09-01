@@ -1,10 +1,26 @@
 import { ReadUserService } from "./ReadUserService";
 import { MongoDBUserRepository } from "../../../lib/infra/MongoDBUserRepository";
 import Database from "src/lib/infra/Database";
+import mongoose from "mongoose";
+import AppError from "src/lib/domain/AppError";
 
-Database.connect()
+let client: typeof mongoose;
+
+async function connect() {
+  if (!client) {
+
+    try {
+      client = await Database.connect();
+    } catch (err) {
+      return AppError.json("Erro ao conectar no banco: " + err, 500)
+    }
+  }
+  return client;
+}
 
 export const readUser = async (event) => {
+
+  await connect();
 
   const userRepository = new MongoDBUserRepository()
   const readUserService = new ReadUserService(userRepository)

@@ -3,16 +3,11 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-let cachedDb: typeof mongoose | null = null;
 
 export default class Database {
     
     static async connect() {
         mongoose.set("strictQuery", false);
-
-        if (cachedDb) {
-            return cachedDb;
-        }
 
         try {
             // const connectionString = `mongodb://${process.env.DATABASE_HOST!}`
@@ -30,11 +25,10 @@ export default class Database {
             })
 
             console.log('Database connection successful')
-            cachedDb = conn
             return conn
             
         } catch (err) {
-            console.error('Database connection error:', err)
+            throw Error('Database connection error: ' + err)
         }
     }
 }
